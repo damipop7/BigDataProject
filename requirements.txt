@@ -2,6 +2,7 @@
 requests>=2.31.0
 beautifulsoup4>=4.12.2
 lxml>=4.9.3
+fake-useragent>=1.4.0
 
 # Data Processing
 pandas>=2.1.0

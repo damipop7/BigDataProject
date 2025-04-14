@@ -4,7 +4,7 @@ import numpy as np
 from pyspark.sql import SparkSession
 import os
 import logging
-from src.data_collection import DataCollector
+from bin.data_collection import DataCollector
 from src.data_processing import DataProcessor
 from src.feature_engineering import FeatureEngineer
 from src.model_training import ModelTrainer
