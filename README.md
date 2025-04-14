@@ -1,46 +1,121 @@
 # Big Data Analytics in Soccer: Performance Insights and Predictive Modeling
 ## Oluwadamilola Popoola, Ezequiel Tolosa
 
-# Soccer Analytics Project Setup
+# Soccer Analytics Project
 
-## Prerequisites
-- Python 3.8+
-- Java 8+ (required for PySpark)
-- Kaggle API credentials
-
-## Setup Instructions
-
-1. Create a virtual environment:
-```powershell
-python -m venv venv
-.\venv\Scripts\activate
-```
-
-2. Install dependencies:
-```powershell
-pip install -r requirements.txt
-```
-
-3. Configure Kaggle credentials:
-- Download kaggle.json from your Kaggle account
-- Place it in: %USERPROFILE%\.kaggle\kaggle.json
-
-4. Run the project:
-```powershell
-python main.py
-```
+## Overview
+Data analytics project combining soccer data from Kaggle and FBRef for predictive modeling and analysis.
 
 ## Project Structure
 ```
 BigDataProject/
-├── data/
-│   ├── raw/           # Raw data files
-│   └── processed/     # Processed datasets
-├── models/            # Saved models
-├── src/              # Source code
-├── notebooks/        # Jupyter notebooks
-└── requirements.txt  # Project dependencies
+├── data/               # Data storage
+│   ├── raw/           # Original data
+│   ├── processed/     # Cleaned data
+│   └── interim/       # Intermediate processing
+├── src/               # Source code
+├── logs/              # Log files
+├── models/            # Trained models
+├── notebooks/         # Jupyter notebooks
+└── tests/            # Test files
 ```
+
+## Setup
+
+### Prerequisites
+- Python 3.8+
+- pip/conda
+- Kaggle account
+
+### Installation
+```powershell
+# Create virtual environment
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# Install dependencies
+python -m pip install -r requirements.txt
+
+# Configure Kaggle credentials
+python setup_kaggle_credentials.py
+```
+
+### Configuration
+1. Create `.env` file with:
+```
+KAGGLE_USERNAME=your_username
+KAGGLE_KEY=your_key
+FBREF_RATE_LIMIT=3
+```
+
+2. Verify setup:
+```powershell
+python -m pytest tests/test_kaggle_auth.py
+```
+
+## Usage
+```powershell
+# Run data collection
+python -m src.data.collector
+
+# Run tests
+python -m pytest
+```
+
+## Logging System
+
+The `logs/` directory contains all application logs, providing detailed tracking of:
+
+### Log Files
+- `fbref_scraper.log`: Tracks web scraping activities
+  - Scraping attempts
+  - Success/failure status
+  - Rate limiting information
+  - Data validation results
+
+- `kaggle_download.log`: Documents Kaggle data operations
+  - Dataset downloads
+  - File verification
+  - Authentication status
+  - Download progress
+
+- `processing.log`: Records data processing steps
+  - Data cleaning operations
+  - Feature engineering
+  - Data validation
+  - Error handling
+
+### Log Format
+Each log entry follows this structure:
+```
+TIMESTAMP - MODULE_NAME - LOG_LEVEL - MESSAGE
+```
+
+Example:
+```
+2025-04-14 09:58:15,795 - fbref_client - INFO - Scraping Premier League data (attempt 1/3)...
+```
+
+### Log Levels
+- ERROR: Critical issues requiring immediate attention
+- WARNING: Potential issues or retries
+- INFO: General progress information
+- DEBUG: Detailed debugging information
+
+### Log Management
+- Logs are automatically rotated daily
+- Each log file is limited to 10MB
+- Last 30 days of logs are retained
+- Sensitive information is automatically redacted
+
+## Contributing
+1. Create feature branch
+2. Make changes
+3. Run tests
+4. Submit pull request
+
+## License
+MIT License
 
 ## Data Sources
 • Data 1: https://www.kaggle.com/datasets/hugomathien/soccer/data
@@ -49,7 +124,7 @@ BigDataProject/
 • Data 4: https://fbref.com/en/
 
 ## Project Idea
-In this project, we will leverage big data techniques to analyze soccer performance metrics and predict match outcomes. Since soccer generates vast amounts of data—including player tracking, passes, shots, and team formations— we will process large datasets efficiently using big data tools. Our approach involves extracting and cleaning raw match data, structuring it for analysis, and applying machine learning algorithms to identify patterns and make predictions. By utilizing distributed computing and scalable data processing, we will explore how big data enhances decision-making in soccer analytics. The final results will be presented through interactive dashboards that provide insights into player performance,tactical trends, and match predictions, helping analysts, coaches, and fans make data-driven decisions.
+In this project, we will leverage big data techniques to analyze soccer performance metrics and predict match outcomes. Since soccer generates vast amounts of data—including player tracking, passes, shots, and team formations— we will process large datasets efficiently using big data tools. Our approach involves extracting and cleaning raw match data, structuring it for analysis, and applying machine learning algorithms to identify patterns and make predictions. By utilizing distributed computing and scalable data processing, we will explore how big data enhances decision-making in soccer analytics. The final results will be presented through interactive dashboards that provide insights into player performance, tactical trends, and match predictions, helping analysts, coaches, and fans make data-driven decisions.
 
 ## Tools and Technologies
 • IDEs: JupyterLab, Visual Studio Code
