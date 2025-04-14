@@ -1,3 +1,4 @@
+# Updated main.py to integrate evaluation and saving
 import pandas as pd
 import numpy as np
 from pyspark.sql import SparkSession
@@ -33,7 +34,7 @@ def main():
 
         # Initialize Spark
         spark = create_spark_session()
-        
+
         # Initialize pipeline components
         data_collector = DataCollector()
         processor = DataProcessor(spark)
@@ -46,18 +47,23 @@ def main():
 
         logger.info("Processing data...")
         match_data = processor.load_and_clean_match_data()
-        
+
         logger.info("Engineering features...")
         featured_data = feature_engineer.create_team_features(match_data)
-        
+
         logger.info("Training model...")
         model, test_data = model_trainer.train_model(featured_data)
-        
-        # Save model and evaluate
-        model.save("models/match_prediction_model")
-        
+
+        logger.info("Evaluating model...")
+        accuracy = model_trainer.evaluate_model(model, test_data)
+        logger.info(f"Model accuracy: {accuracy:.4f}")
+
+        logger.info("Saving model...")
+        path = model_trainer.save_model(model)
+        logger.info(f"Model saved at: {path}")
+
         logger.info("Pipeline completed successfully")
-        
+
     except Exception as e:
         logger.error(f"Pipeline failed: {str(e)}")
         raise
