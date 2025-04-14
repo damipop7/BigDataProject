@@ -1,6 +1,48 @@
 # Big Data Analytics in Soccer: Performance Insights and Predictive Modeling
 ## Oluwadamilola Popoola, Ezequiel Tolosa
-1 Data Sources
+
+# Soccer Analytics Project Setup
+
+## Prerequisites
+- Python 3.8+
+- Java 8+ (required for PySpark)
+- Kaggle API credentials
+
+## Setup Instructions
+
+1. Create a virtual environment:
+```powershell
+python -m venv venv
+.\venv\Scripts\activate
+```
+
+2. Install dependencies:
+```powershell
+pip install -r requirements.txt
+```
+
+3. Configure Kaggle credentials:
+- Download kaggle.json from your Kaggle account
+- Place it in: %USERPROFILE%\.kaggle\kaggle.json
+
+4. Run the project:
+```powershell
+python main.py
+```
+
+## Project Structure
+```
+BigDataProject/
+├── data/
+│   ├── raw/           # Raw data files
+│   └── processed/     # Processed datasets
+├── models/            # Saved models
+├── src/              # Source code
+├── notebooks/        # Jupyter notebooks
+└── requirements.txt  # Project dependencies
+```
+
+## Data Sources
 • Data 1: https://www.kaggle.com/datasets/hugomathien/soccer/data
 • Data 2: https://www.kaggle.com/datasets/hikne707/big-five-european-soccer-leagues
 • Data 3: https://www.kaggle.com/datasets/davidcariboo/player-scores
