@@ -1,154 +1,189 @@
 # Big Data Analytics in Soccer: Performance Insights and Predictive Modeling
-## Oluwadamilola Popoola, Ezequiel Tolosa
-
-# Soccer Analytics Project
+## Authors: Oluwadamilola Popoola, Ezequiel Tolosa
 
 ## Overview
-Data analytics project combining soccer data from Kaggle and FBRef for predictive modeling and analysis.
+Advanced data analytics project combining soccer data from multiple sources (Kaggle and FBRef) to perform comprehensive analysis and predictive modeling of soccer match outcomes and team performance metrics.
 
 ## Project Structure
 ```
 BigDataProject/
-├── data/               # Data storage
-│   ├── raw/           # Original data
-│   ├── processed/     # Cleaned data
-│   └── interim/       # Intermediate processing
-├── src/               # Source code
-├── logs/              # Log files
-├── models/            # Trained models
-├── notebooks/         # Jupyter notebooks
-└── tests/            # Test files
+├── data/                           # Data storage
+│   ├── raw/                        # Original data
+│   │   ├── soccer_db/             # Kaggle SQLite database
+│   │   └── fbref/                 # Scraped FBRef data
+│   ├── processed/                  # Cleaned and transformed data
+│   │   └── integrated_soccer_data.csv
+│   ├── interim/                    # Intermediate processing files
+│   └── figures/                    # Generated visualizations
+├── src/                           # Source code
+│   ├── data/                      # Data processing modules
+│   │   ├── collector.py           # Data collection scripts
+│   │   ├── cleaner.py            # Data cleaning utilities
+│   │   └── integrator.py         # Data integration logic
+│   ├── models/                    # Model training and evaluation
+│   └── visualization/            # Visualization modules
+├── notebooks/                     # Jupyter notebooks
+│   ├── exploratory/              # EDA notebooks
+│   │   └── EDA.ipynb            # Main EDA notebook
+│   └── modeling/                 # Modeling notebooks
+├── tests/                        # Test files
+├── logs/                         # Application logs
+├── requirements.txt              # Project dependencies
+├── setup.py                      # Project installation
+└── README.md                     # Project documentation
 ```
 
-## Setup
+## Data Sources
+1. Kaggle European Soccer Database
+   - Historical match data
+   - Team and player statistics
+   - Source: https://www.kaggle.com/datasets/hugomathien/soccer/data
+
+2. FBRef Current Season Data
+   - Live team standings
+   - Advanced statistics (xG, pressing, etc.)
+   - Source: https://fbref.com/en/
+
+## Setup and Installation
 
 ### Prerequisites
 - Python 3.8+
-- pip/conda
+- Git
 - Kaggle account
+- Virtual environment tool (venv/conda)
 
-### Installation
-```powershell
-# Create virtual environment
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-
-# Install dependencies
-python -m pip install -r requirements.txt
-
-# Configure Kaggle credentials
-python setup_kaggle_credentials.py
+### Installation Steps
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/BigDataProject.git
+cd BigDataProject
 ```
 
-### Configuration
-1. Create `.env` file with:
+2. Create and activate virtual environment:
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+3. Install dependencies:
+```powershell
+python -m pip install -r requirements.txt
+```
+
+4. Configure Kaggle credentials:
+- Create `.env` file in project root:
 ```
 KAGGLE_USERNAME=your_username
 KAGGLE_KEY=your_key
 FBREF_RATE_LIMIT=3
 ```
 
-2. Verify setup:
+5. Initialize data directories:
 ```powershell
-python -m pytest tests/test_kaggle_auth.py
+python setup.py
 ```
 
 ## Usage
-```powershell
-# Run data collection
-python -m src.data.collector
 
-# Run tests
+### Data Collection and Processing
+1. Download Kaggle data:
+```powershell
+python -m src.data.collector --source kaggle
+```
+
+2. Scrape FBRef data:
+```powershell
+python -m src.data.collector --source fbref
+```
+
+3. Integrate data sources:
+```powershell
+python run_integration.py
+```
+
+### Analysis and Visualization
+1. Run EDA notebook:
+```powershell
+jupyter lab notebooks/exploratory/EDA.ipynb
+```
+
+2. Generate visualizations:
+```powershell
+python notebooks/exploratory/EDA.py
+```
+
+### Key Features
+- Data Integration: Combines historical and current season data
+- Advanced Statistics: Expected goals (xG), team performance metrics
+- Visualization: Automated plot generation and interactive dashboards
+- Performance Analysis: Team and player statistics analysis
+
+## Data Dictionary
+
+### Integrated Dataset Columns
+- `team_name`: Team name
+- `mp`: Matches played
+- `w`: Wins
+- `d`: Draws
+- `l`: Losses
+- `gf`: Goals for
+- `ga`: Goals against
+- `pts`: Points
+- `xg`: Expected goals
+- `xga`: Expected goals against
+- Additional metrics...
+
+## Development Guidelines
+
+### Code Style
+- Follow PEP 8 guidelines
+- Use type hints
+- Document functions and classes
+
+### Testing
+Run tests:
+```powershell
 python -m pytest
 ```
 
-## Logging System
+### Logging
+- Logs stored in `logs/` directory
+- Separate logs for data collection, processing, and analysis
+- Log rotation enabled
 
-The `logs/` directory contains all application logs, providing detailed tracking of:
+## Visualization Outputs
+All visualizations are saved in `data/figures/`:
+- `missing_values.png`: Data quality analysis
+- `goals_analysis.png`: Team performance visualization
+- `win_rates.png`: League comparison
+- `season_trends.png`: Seasonal analysis
 
-### Log Files
-- `fbref_scraper.log`: Tracks web scraping activities
-  - Scraping attempts
-  - Success/failure status
-  - Rate limiting information
-  - Data validation results
-
-- `kaggle_download.log`: Documents Kaggle data operations
-  - Dataset downloads
-  - File verification
-  - Authentication status
-  - Download progress
-
-- `processing.log`: Records data processing steps
-  - Data cleaning operations
-  - Feature engineering
-  - Data validation
-  - Error handling
-
-### Log Format
-Each log entry follows this structure:
-```
-TIMESTAMP - MODULE_NAME - LOG_LEVEL - MESSAGE
-```
-
-Example:
-```
-2025-04-14 09:58:15,795 - fbref_client - INFO - Scraping Premier League data (attempt 1/3)...
-```
-
-### Log Levels
-- ERROR: Critical issues requiring immediate attention
-- WARNING: Potential issues or retries
-- INFO: General progress information
-- DEBUG: Detailed debugging information
-
-### Log Management
-- Logs are automatically rotated daily
-- Each log file is limited to 10MB
-- Last 30 days of logs are retained
-- Sensitive information is automatically redacted
+## Known Issues and Limitations
+1. FBRef rate limiting requires delays between requests
+2. Historical data limited to available Kaggle dataset
+3. Some advanced statistics only available for recent seasons
 
 ## Contributing
-1. Create feature branch
-2. Make changes
-3. Run tests
-4. Submit pull request
+1. Fork the repository
+2. Create feature branch
+3. Make changes
+4. Run tests
+5. Submit pull request
 
 ## License
 MIT License
 
-## Data Sources
-• Data 1: https://www.kaggle.com/datasets/hugomathien/soccer/data
-• Data 2: https://www.kaggle.com/datasets/hikne707/big-five-european-soccer-leagues
-• Data 3: https://www.kaggle.com/datasets/davidcariboo/player-scores
-• Data 4: https://fbref.com/en/
+## Contact
+- Oluwadamilola Popoola - [email]
+- Ezequiel Tolosa - [email]
 
-## Project Idea
-In this project, we will leverage big data techniques to analyze soccer performance metrics and predict match outcomes. Since soccer generates vast amounts of data—including player tracking, passes, shots, and team formations— we will process large datasets efficiently using big data tools. Our approach involves extracting and cleaning raw match data, structuring it for analysis, and applying machine learning algorithms to identify patterns and make predictions. By utilizing distributed computing and scalable data processing, we will explore how big data enhances decision-making in soccer analytics. The final results will be presented through interactive dashboards that provide insights into player performance, tactical trends, and match predictions, helping analysts, coaches, and fans make data-driven decisions.
+## Acknowledgments
+- Kaggle dataset contributors
+- FBRef for current season data
+- Open-source community
 
-## Tools and Technologies
-• IDEs: JupyterLab, Visual Studio Code
-• Libraries: pandas, os, numpy, matplotlib, sklearn
-• Programming Languages: Python and/or R
-• Visualization: Tableau
-
-## High-Level Architecture and Methodology
-The following diagram highlights the tools and methodology we might incorporate in our project.
-
-## Explanation of the Diagram
-• Data Ingestion: Collecting raw soccer data from Kaggle.
-• Data Processing: Cleaning and structuring data using big data frameworks.
-• Feature Engineering: Extracting relevant KPIs like passing accuracy and expected goals.
-• Model Training: Applying machine learning algorithms for match prediction.
-• Visualization: Presenting insights using Tableau and interactive dashboards.
-
-## Project Goals
-The goal of this project is to apply big data analytics to European soccer data
-to extract meaningful insights and enhance match prediction models. We aim
-to:
-• Identify key performance indicators (KPIs) such as passing accuracy, defensive actions, and expected goals (xG) that influence match outcomes.
-• Leverage Apache Spark for distributed computing to ensure efficient processing of large datasets.
-• Build accurate machine learning models for forecasting match results.
-• Analyze tactical strategies by uncovering patterns in formations, team playstyles, and player contributions.
-• Create interactive dashboards to make insights accessible for analysts, coaches, and soccer enthusiasts.
-
+## Future Improvements
+1. Real-time data updates
+2. Advanced predictive modeling
+3. Interactive web dashboard
+4. Additional data sources integration
