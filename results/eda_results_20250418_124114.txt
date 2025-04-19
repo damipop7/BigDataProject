@@ -1,0 +1,50 @@
+EDA Results Generated on 2025-04-18 12:41:14
+
+================================================================================
+
+Dataset Overview:
+--------------------------------------------------
+Shape: (3752, 32)
+
+Columns: ['rk', 'team_name', 'mp', 'w', 'd', 'l', 'gf', 'ga', 'gd', 'pts', 'pts/mp', 'xg', 'xga', 'xgd', 'xgd/90', 'last_5', 'attendance', 'top_team_scorer', 'goalkeeper', 'notes', 'league', 'country', 'season_x', 'scrape_date', 'source_league', 'match_id', 'home_team_api_id', 'away_team_api_id', 'away_team_name', 'home_team_goal', 'away_team_goal', 'season_y']
+
+Data Info:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 3752 entries, 0 to 3751
+Data columns (total 32 columns):
+ #   Column            Non-Null Count  Dtype  
+---  ------            --------------  -----  
+ 0   rk                3752 non-null   int64  
+ 1   team_name         3752 non-null   object 
+ 2   mp                3752 non-null   int64  
+ 3   w                 3752 non-null   int64  
+ 4   d                 3752 non-null   int64  
+ 5   l                 3752 non-null   int64  
+ 6   gf                3752 non-null   int64  
+ 7   ga                3752 non-null   int64  
+ 8   gd                3752 non-null   int64  
+ 9   pts               3752 non-null   int64  
+ 10  pts/mp            3752 non-null   float64
+ 11  xg                3752 non-null   float64
+ 12  xga               3752 non-null   float64
+ 13  xgd               3752 non-null   float64
+ 14  xgd/90            3752 non-null   float64
+ 15  last_5            3752 non-null   object 
+ 16  attendance        3752 non-null   int64  
+ 17  top_team_scorer   3752 non-null   object 
+ 18  goalkeeper        3752 non-null   object 
+ 19  notes             0 non-null      float64
+ 20  league            3752 non-null   object 
+ 21  country           3752 non-null   object 
+ 22  season_x          3752 non-null   object 
+ 23  scrape_date       3752 non-null   object 
+ 24  source_league     3752 non-null   object 
+ 25  match_id          3687 non-null   float64
+ 26  home_team_api_id  3687 non-null   float64
+ 27  away_team_api_id  3687 non-null   float64
+ 28  away_team_name    3687 non-null   object 
+ 29  home_team_goal    3687 non-null   float64
+ 30  away_team_goal    3687 non-null   float64
+ 31  season_y          3687 non-null   object 
+dtypes: float64(11), int64(10), object(11)
+memory usage: 938.1+ KB

@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
 import warnings
+import sys
+from datetime import datetime
+from contextlib import redirect_stdout
 
 # Try importing optional packages
 try:
@@ -34,11 +37,13 @@ plt.rcParams['figure.dpi'] = 100
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 DATA_PATH = PROJECT_ROOT / "data" / "processed" / "integrated_soccer_data.csv"
 FIGURES_PATH = PROJECT_ROOT / "data" / "figures"
+RESULTS_PATH = PROJECT_ROOT / "results"
 
-# Create figures directory if it doesn't exist
+# Create required directories
 FIGURES_PATH.mkdir(parents=True, exist_ok=True)
+RESULTS_PATH.mkdir(parents=True, exist_ok=True)
 
-# Load and examine the dataset
+# Load data first
 print("Loading data...")
 try:
     df = pd.read_csv(DATA_PATH)
@@ -48,12 +53,22 @@ except FileNotFoundError:
     print("Please ensure the file exists and the path is correct")
     raise
 
-print("\nDataset Overview:")
-print("-----------------")
-print(f"Shape: {df.shape}")
-print(f"\nColumns: {df.columns.tolist()}")
-print("\nData Info:")
-print(df.info())
+# Create timestamped results file
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+results_file = RESULTS_PATH / f"eda_results_{timestamp}.txt"
+
+# Now redirect output to file with loaded data
+with open(results_file, 'w') as f:
+    with redirect_stdout(f):
+        print(f"EDA Results Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print("\n" + "="*80 + "\n")
+
+        print("Dataset Overview:")
+        print("-"*50)
+        print(f"Shape: {df.shape}")
+        print(f"\nColumns: {df.columns.tolist()}")
+        print("\nData Info:")
+        df.info()
 
 # Basic Statistical Analysis
 print("\nBasic Statistics:")
